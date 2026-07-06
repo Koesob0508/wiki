@@ -335,6 +335,13 @@ export async function loadQuartzConfig(
       for (const cat of matchedProcessing) {
         categoryMap[cat].push({ entry, manifest })
       }
+      // Mixed plugins (e.g. ["transformer", "component"]) also need their
+      // component registered — the branch above only handles the processing
+      // categories, so component-only registration would otherwise be skipped.
+      if (categories.includes("component") && manifest?.components) {
+        const gitSpec = parsePluginSource(entry.source)
+        await loadComponentsFromPackage(gitSpec.name, manifest)
+      }
     } else {
       const gitSpec = parsePluginSource(entry.source)
       const isComponentOnly = categories.length > 0 && categories.every((c) => c === "component")
