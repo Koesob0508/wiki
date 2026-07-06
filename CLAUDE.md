@@ -1,0 +1,17 @@
+# CLAUDE.md
+
+## 언어
+
+모든 답변은 한국어로 작성한다.
+
+## 문서 구조 규칙
+
+**파일명을 `index.md`로 짓지 않는다.** Quartz의 `folder-page` 플러그인이 슬러그가 `/index`로 끝나는 문서를 "폴더 페이지"로 강제 분류해서, TOC 사이드바가 꺼지고 URL 끝에 슬래시(`/`)를 붙이면 404가 뜬다.
+
+- 게임 개요 문서: `content/{게임 이름}.md` (평탄, 폴더에 넣지 않음)
+- 하위 문서가 생기면: `content/{게임 이름}/{하위 문서 이름}.md` — 같은 이름의 폴더를 만들어 그 안에 넣는다. 파일 탐색기에서 개요 파일과 폴더가 이름이 같아 나란히 보이므로 사실상 그룹핑된다.
+- 하위 문서 파일명도 `index.md`는 금지. `개요.md`, `세계관.md`처럼 구체적인 이름을 쓴다.
+
+## 배포
+
+`main` 푸시 시 GitHub Actions(`deploy.yml`)가 자동 빌드·배포한다. 가끔 build는 성공했는데 `deploy-pages` 단계에서 "Deployment failed, try again later"가 뜨면 GitHub Pages 쪽 일시적 오류다 — `workflow_dispatch`가 없으므로 빈 커밋(`git commit --allow-empty`)으로 재푸시해 재트리거한다.
